@@ -6,6 +6,7 @@ import (
 
 	"github.com/neatflowcv/project/internal/app/flow"
 	fakefilesystem "github.com/neatflowcv/project/internal/pkg/filesystem/fake"
+	fakeversionfetcher "github.com/neatflowcv/project/internal/pkg/versionfetcher/fake"
 	"github.com/stretchr/testify/require"
 )
 
@@ -15,7 +16,8 @@ func TestNewProject(t *testing.T) {
 	const projectName = "test"
 
 	filesystem := fakefilesystem.NewFakeFilesystem()
-	service := flow.NewService(filesystem)
+	fetcher := fakeversionfetcher.NewFakeVersionFetcher()
+	service := flow.NewService(filesystem, fetcher)
 
 	err := service.NewProject("~", projectName, "test")
 

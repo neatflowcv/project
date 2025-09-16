@@ -5,15 +5,18 @@ import (
 
 	filesystem "github.com/neatflowcv/project/internal/pkg/filesystem/core"
 	"github.com/neatflowcv/project/internal/pkg/templates"
+	versionfetcher "github.com/neatflowcv/project/internal/pkg/versionfetcher/core"
 )
 
 type Service struct {
 	filesystem filesystem.Filesystem
+	fetcher    versionfetcher.VersionFetcher
 }
 
-func NewService(filesystem filesystem.Filesystem) *Service {
+func NewService(filesystem filesystem.Filesystem, fetcher versionfetcher.VersionFetcher) *Service {
 	return &Service{
 		filesystem: filesystem,
+		fetcher:    fetcher,
 	}
 }
 
@@ -36,11 +39,21 @@ func (s *Service) NewProject(userHome string, projectName string, moduleName str
 		}
 	}
 
+	goVersion, err := s.fetcher.FetchGoVersion()
+	if err != nil {
+		return fmt.Errorf("fetch go version: %w", err)
+	}
+
+	golangciLintVersion, err := s.fetcher.FetchGolangciLintVersion()
+	if err != nil {
+		return fmt.Errorf("fetch golangci lint version: %w", err)
+	}
+
 	tmpl := templates.Template{
 		ProjectName:         projectName,
 		ModuleName:          moduleName,
-		GoVersion:           "1.25.1",
-		GolangciLintVersion: "2.4.0",
+		GoVersion:           goVersion,
+		GolangciLintVersion: "v" + golangciLintVersion,
 	}
 
 	files := []struct {

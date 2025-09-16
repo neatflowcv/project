@@ -8,6 +8,7 @@ import (
 
 	"github.com/neatflowcv/project/internal/app/flow"
 	realfilesystem "github.com/neatflowcv/project/internal/pkg/filesystem/real"
+	realversionfetcher "github.com/neatflowcv/project/internal/pkg/versionfetcher/real"
 	"github.com/urfave/cli/v3"
 )
 
@@ -19,7 +20,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	service := flow.NewService(realfilesystem.NewRealFilesystem())
+	service := flow.NewService(realfilesystem.NewRealFilesystem(), realversionfetcher.NewRealVersionFetcher())
 
 	cmd := cli.Command{ //nolint:exhaustruct
 		Commands: []*cli.Command{
