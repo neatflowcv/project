@@ -1,6 +1,10 @@
 package fakeversionfetcher
 
-import versionfetcher "github.com/neatflowcv/project/internal/pkg/versionfetcher/core"
+import (
+	"context"
+
+	versionfetcher "github.com/neatflowcv/project/internal/pkg/versionfetcher/core"
+)
 
 var _ versionfetcher.VersionFetcher = (*FakeVersionFetcher)(nil)
 
@@ -16,10 +20,10 @@ func NewFakeVersionFetcher() *FakeVersionFetcher {
 	}
 }
 
-func (f *FakeVersionFetcher) FetchGoVersion() (string, error) {
+func (f *FakeVersionFetcher) FetchGoVersion(ctx context.Context) (string, error) {
 	return f.GoVersion, nil
 }
 
-func (f *FakeVersionFetcher) FetchGolangciLintVersion() (string, error) {
+func (f *FakeVersionFetcher) FetchGolangciLintVersion(ctx context.Context) (string, error) {
 	return f.GolangciLintVersion, nil
 }

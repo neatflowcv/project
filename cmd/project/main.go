@@ -36,7 +36,7 @@ func main() {
 					projectName := extractProjectName(project)
 					moduleName := extractModuleName(project)
 					log.Println("create project", projectName, moduleName)
-					err := service.NewProject(userHome, projectName, moduleName)
+					err := service.NewProject(ctx, userHome, projectName, moduleName)
 					if err != nil {
 						return cli.Exit(err.Error(), 1)
 					}

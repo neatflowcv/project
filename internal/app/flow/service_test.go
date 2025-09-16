@@ -19,7 +19,7 @@ func TestNewProject(t *testing.T) {
 	fetcher := fakeversionfetcher.NewFakeVersionFetcher()
 	service := flow.NewService(filesystem, fetcher)
 
-	err := service.NewProject("~", projectName, "test")
+	err := service.NewProject(t.Context(), "~", projectName, "test")
 
 	require.NoError(t, err)
 	require.Len(t, filesystem.Dirs, 8)

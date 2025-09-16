@@ -1,6 +1,7 @@
 package flow
 
 import (
+	"context"
 	"fmt"
 
 	filesystem "github.com/neatflowcv/project/internal/pkg/filesystem/core"
@@ -20,7 +21,8 @@ func NewService(filesystem filesystem.Filesystem, fetcher versionfetcher.Version
 	}
 }
 
-func (s *Service) NewProject(userHome string, projectName string, moduleName string) error { //nolint:funlen
+func (s *Service) NewProject(ctx context.Context, //nolint:funlen
+	userHome string, projectName string, moduleName string) error {
 	dirs := []string{
 		fmt.Sprintf("%s/workspace/%s", userHome, projectName),
 		fmt.Sprintf("%s/workspace/%s/cmd", userHome, projectName),
@@ -39,12 +41,12 @@ func (s *Service) NewProject(userHome string, projectName string, moduleName str
 		}
 	}
 
-	goVersion, err := s.fetcher.FetchGoVersion()
+	goVersion, err := s.fetcher.FetchGoVersion(ctx)
 	if err != nil {
 		return fmt.Errorf("fetch go version: %w", err)
 	}
 
-	golangciLintVersion, err := s.fetcher.FetchGolangciLintVersion()
+	golangciLintVersion, err := s.fetcher.FetchGolangciLintVersion(ctx)
 	if err != nil {
 		return fmt.Errorf("fetch golangci lint version: %w", err)
 	}

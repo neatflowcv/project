@@ -31,15 +31,12 @@ func NewRealVersionFetcher() *RealVersionFetcher {
 	return &RealVersionFetcher{}
 }
 
-func (f *RealVersionFetcher) FetchGoVersion() (string, error) {
+func (f *RealVersionFetcher) FetchGoVersion(ctx context.Context) (string, error) {
 	const endpoint = "https://go.dev/dl/?mode=json"
 
 	const (
 		requestTimeout = 5 * time.Second
 	)
-
-	ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
-	defer cancel()
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, endpoint, nil)
 	if err != nil {
@@ -83,16 +80,12 @@ func (f *RealVersionFetcher) FetchGoVersion() (string, error) {
 	return version, nil
 }
 
-func (f *RealVersionFetcher) FetchGolangciLintVersion() (string, error) {
+func (f *RealVersionFetcher) FetchGolangciLintVersion(ctx context.Context) (string, error) {
 	const endpoint = "https://api.github.com/repos/golangci/golangci-lint/releases/latest"
 
 	const (
-		requestTimeout    = 5 * time.Second
-		responseBodyLimit = 1024
+		requestTimeout = 5 * time.Second
 	)
-
-	ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
-	defer cancel()
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, endpoint, nil)
 	if err != nil {
