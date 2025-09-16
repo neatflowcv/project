@@ -4,7 +4,7 @@ build:
 
 .PHONY: update
 update:
-	go get -u ./...
+	go get -u -t ./...
 	go mod tidy
 	go mod vendor
 
