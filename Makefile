@@ -5,6 +5,10 @@ LDFLAGS := -ldflags "-X 'main.version=$(VERSION)'"
 build:
 	CGO_ENABLED=0 GOOS=linux go build $(LDFLAGS) -o . ./cmd/...
 
+.PHONY: install
+install:
+	CGO_ENABLED=0 GOOS=linux go install $(LDFLAGS) ./cmd/...
+
 .PHONY: update
 update:
 	go get -u -t ./...
