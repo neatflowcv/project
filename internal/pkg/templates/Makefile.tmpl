@@ -1,6 +1,9 @@
+VERSION := $(shell git describe --tags --abbrev=0 2>/dev/null || echo dev)
+LDFLAGS := -ldflags "-X 'main.version=$(VERSION)'"
+
 .PHONY: build
 build:
-	CGO_ENABLED=0 GOOS=linux go build -o . ./cmd/...
+	CGO_ENABLED=0 GOOS=linux go build $(LDFLAGS) -o . ./cmd/...
 
 .PHONY: update
 update:

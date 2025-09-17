@@ -12,7 +12,13 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
+var (
+	version = "dev"
+)
+
 func main() {
+	log.Println("version", version)
+
 	var project string
 
 	userHome, err := os.UserHomeDir()
